@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { Trash2, ArrowRight, CreditCard } from 'lucide-react';
+import { Trash2, ArrowRight, CreditCard, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
 
 export default function Cart() {
@@ -84,23 +84,5 @@ export default function Cart() {
         </div>
       </div>
     </div>
-  );
-}
-
-function ShieldCheck({ size }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
   );
 }
