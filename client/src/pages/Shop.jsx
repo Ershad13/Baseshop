@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { ShoppingCart, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Shop() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const { addToCart, cart } = useCart();
   const [loading, setLoading] = useState(true);
@@ -22,11 +24,11 @@ export default function Shop() {
 
   const isInCart = (id) => cart.some(item => item.id === id);
 
-  if (loading) return <div className="text-center py-20 text-2xl">Loading products...</div>;
+  if (loading) return <div className="text-center py-20 text-2xl">{t('common.loading')}</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">Architectural Map Collection</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">{t('shop.title')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map(product => (
           <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
@@ -50,9 +52,9 @@ export default function Shop() {
                   }`}
                 >
                   {isInCart(product.id) ? (
-                    <><Check size={20} /> In Cart</>
+                    <><Check size={20} /> {t('shop.in_cart')}</>
                   ) : (
-                    <><ShoppingCart size={20} /> Add to Cart</>
+                    <><ShoppingCart size={20} /> {t('shop.add_to_cart')}</>
                   )}
                 </button>
               </div>

@@ -1,5 +1,6 @@
 const Database = require('better-sqlite3');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 const db = new Database(path.join(__dirname, 'database.sqlite'));
 
@@ -10,6 +11,7 @@ db.exec(`
     password TEXT,
     google_id TEXT UNIQUE,
     name TEXT,
+    role TEXT DEFAULT 'user',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -40,6 +42,22 @@ db.exec(`
     FOREIGN KEY (product_id) REFERENCES products(id)
   );
 `);
+
+// Ensure role column exists (for existing databases)
+try {
+  db.exec('ALTER TABLE users ADD COLUMN role TEXT DEFAULT "user"');
+} catch (e) {
+  // Column might already exist
+}
+
+// Seed admin user if it doesn't exist
+const adminEmail = 'ershaddehrami@gmail.com';
+const adminUser = db.prepare('SELECT * FROM users WHERE email = ?').get(adminEmail);
+if (!adminUser) {
+  const hashedPassword = bcrypt.hashSync('drowssap', 10);
+  db.prepare('INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)')
+    .run(adminEmail, hashedPassword, 'Admin', 'admin');
+}
 
 // Seed products if empty
 const productsCount = db.prepare('SELECT COUNT(*) as count FROM products').get();

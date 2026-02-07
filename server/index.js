@@ -74,6 +74,15 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+const verifyAdmin = (req, res, next) => {
+  authenticateToken(req, res, () => {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admin access required' });
+    }
+    next();
+  });
+};
+
 // --- AUTH ROUTES ---
 
 // Google Auth Routes
@@ -84,7 +93,7 @@ app.get('/api/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     const token = jwt.sign(
-      { id: req.user.id, email: req.user.email, name: req.user.name },
+      { id: req.user.id, email: req.user.email, name: req.user.name, role: req.user.role || 'user' },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '24h' }
     );
@@ -96,9 +105,9 @@ app.post('/api/signup', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const info = db.prepare('INSERT INTO users (email, password, name) VALUES (?, ?, ?)').run(email, hashedPassword, name);
-    const token = jwt.sign({ id: info.lastInsertRowid, email, name }, process.env.JWT_SECRET || 'secret');
-    res.json({ token, user: { id: info.lastInsertRowid, email, name } });
+    const info = db.prepare('INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)').run(email, hashedPassword, name, 'user');
+    const token = jwt.sign({ id: info.lastInsertRowid, email, name, role: 'user' }, process.env.JWT_SECRET || 'secret');
+    res.json({ token, user: { id: info.lastInsertRowid, email, name, role: 'user' } });
   } catch (err) {
     res.status(400).json({ message: 'Email already exists' });
   }
@@ -112,8 +121,8 @@ app.post('/api/login', async (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, process.env.JWT_SECRET || 'secret');
-  res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
+  const token = jwt.sign({ id: user.id, email: user.email, name: user.name, role: user.role }, process.env.JWT_SECRET || 'secret');
+  res.json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
 });
 
 // --- PRODUCT ROUTES ---
@@ -200,6 +209,37 @@ app.get('/api/download/:productId', authenticateToken, (req, res) => {
     fileName: purchase.file_path,
     downloadUrl: `data:application/pdf;base64,JVBERi0xLjQKJ... (mock data for ${purchase.name})`
   });
+});
+
+// --- ADMIN ROUTES ---
+
+app.get('/api/admin/stats', verifyAdmin, (req, res) => {
+  const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
+  const productCount = db.prepare('SELECT COUNT(*) as count FROM products').get().count;
+  const orderCount = db.prepare('SELECT COUNT(*) as count FROM orders').get().count;
+  const totalRevenue = db.prepare('SELECT SUM(total_amount) as total FROM orders').get().total || 0;
+
+  res.json({
+    users: userCount,
+    products: productCount,
+    orders: orderCount,
+    revenue: totalRevenue
+  });
+});
+
+app.get('/api/admin/users', verifyAdmin, (req, res) => {
+  const users = db.prepare('SELECT id, email, name, role, created_at FROM users').all();
+  res.json(users);
+});
+
+app.get('/api/admin/orders', verifyAdmin, (req, res) => {
+  const orders = db.prepare(`
+    SELECT o.id, o.total_amount, o.status, o.created_at, u.email as user_email
+    FROM orders o
+    JOIN users u ON o.user_id = u.id
+    ORDER BY o.created_at DESC
+  `).all();
+  res.json(orders);
 });
 
 app.listen(PORT, () => {

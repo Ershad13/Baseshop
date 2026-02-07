@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Download, ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
@@ -15,14 +18,14 @@ export default function Home() {
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-            Precision Architectural Maps & Blueprints
+            {t('home.hero_title')}
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-200">
-            Professional-grade floor plans, site maps, and architectural designs ready for your next project.
+            {t('home.hero_subtitle')}
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link to="/shop" className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-2 transition text-lg">
-              Explore Shop <ArrowRight size={20} />
+              {t('home.explore_button')} <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
         </div>
@@ -34,22 +37,22 @@ export default function Home() {
           <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
             <MapPin size={32} />
           </div>
-          <h3 className="text-xl font-bold mb-2">High Precision</h3>
-          <p className="text-gray-600">Every map is meticulously designed with accurate scales and professional standards.</p>
+          <h3 className="text-xl font-bold mb-2">{t('home.feature_1_title')}</h3>
+          <p className="text-gray-600">{t('home.feature_1_desc')}</p>
         </div>
         <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
             <Download size={32} />
           </div>
-          <h3 className="text-xl font-bold mb-2">Instant Access</h3>
-          <p className="text-gray-600">Download your files immediately after purchase in multiple formats including PDF and CAD.</p>
+          <h3 className="text-xl font-bold mb-2">{t('home.feature_2_title')}</h3>
+          <p className="text-gray-600">{t('home.feature_2_desc')}</p>
         </div>
         <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
             <ShieldCheck size={32} />
           </div>
-          <h3 className="text-xl font-bold mb-2">Verified Content</h3>
-          <p className="text-gray-600">All designs are reviewed by certified architects to ensure quality and compliance.</p>
+          <h3 className="text-xl font-bold mb-2">{t('home.feature_3_title')}</h3>
+          <p className="text-gray-600">{t('home.feature_3_desc')}</p>
         </div>
       </section>
 
@@ -57,11 +60,11 @@ export default function Home() {
       <section className="container mx-auto px-4">
         <div className="bg-gray-900 rounded-3xl p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 text-white">
           <div className="max-w-xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Your Construction Today</h2>
-            <p className="text-gray-400 text-lg">Join thousands of architects and developers who use ArchMaps for their professional project starts.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.cta_title')}</h2>
+            <p className="text-gray-400 text-lg">{t('home.cta_desc')}</p>
           </div>
           <Link to="/shop" className="bg-white text-gray-900 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition whitespace-nowrap">
-            Browse All Maps
+            {t('home.cta_button')}
           </Link>
         </div>
       </section>

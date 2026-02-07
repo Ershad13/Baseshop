@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     setToken(res.data.token);
     localStorage.setItem('user', JSON.stringify(res.data.user));
     localStorage.setItem('token', res.data.token);
+    return res.data;
   };
 
   const signup = async (email, password, name) => {
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }) => {
     setToken(res.data.token);
     localStorage.setItem('user', JSON.stringify(res.data.user));
     localStorage.setItem('token', res.data.token);
+    return res.data;
   };
 
   const logout = () => {
