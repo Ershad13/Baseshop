@@ -1,0 +1,84 @@
+{
+  "common": {
+    "shop": "Shop",
+    "cart": "Cart",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "admin": "Admin Panel",
+    "home": "Home",
+    "loading": "Loading...",
+    "login_required": "Please log in to view your orders.",
+    "error": "An error occurred",
+    "footer_rights": "All rights reserved."
+  },
+  "home": {
+    "hero_title": "Precision Architectural Maps & Blueprints",
+    "hero_subtitle": "Professional-grade floor plans, site maps, and architectural designs ready for your next project.",
+    "explore_button": "Explore Shop",
+    "feature_1_title": "High Precision",
+    "feature_1_desc": "Every map is meticulously designed with accurate scales and professional standards.",
+    "feature_2_title": "Instant Access",
+    "feature_2_desc": "Download your files immediately after purchase in multiple formats including PDF and CAD.",
+    "feature_3_title": "Verified Content",
+    "feature_3_desc": "All designs are reviewed by certified architects to ensure quality and compliance.",
+    "cta_title": "Start Your Construction Today",
+    "cta_desc": "Join thousands of architects and developers who use ArchMaps for their professional project starts.",
+    "cta_button": "Browse All Maps"
+  },
+  "shop": {
+    "title": "Our Collection",
+    "add_to_cart": "Add to Cart",
+    "in_cart": "In Cart"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "go_to_shop": "Go to Shop",
+    "summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Checkout Now",
+    "secure_checkout": "Secure checkout powered by Stripe (Mocked)",
+    "checkout_error": "Failed to place order. Please try again."
+  },
+  "login": {
+    "title": "Welcome Back",
+    "signup_title": "Create Account",
+    "email": "Email Address",
+    "password": "Password",
+    "full_name": "Full Name",
+    "submit": "Login",
+    "signup_submit": "Sign Up",
+    "no_account": "Don't have an account?",
+    "signup_link": "Sign up",
+    "already_account": "Already have an account?",
+    "login_link": "Login",
+    "google_login": "Continue with Google",
+    "auth_failed": "Authentication failed"
+  },
+  "dashboard": {
+    "title": "My Projects",
+    "no_orders": "You haven't placed any orders yet.",
+    "no_orders_desc": "Your purchased maps will appear here for download.",
+    "order_id": "Order ID",
+    "date": "Order Date",
+    "total": "Total Amount",
+    "download": "Download",
+    "ready_download": "Ready for download (PDF/CAD)",
+    "download_error": "Failed to download file."
+  },
+  "admin": {
+    "overview": "Overview",
+    "users": "Users",
+    "orders": "Orders",
+    "revenue": "Total Revenue",
+    "total_users": "Total Users",
+    "total_products": "Total Products",
+    "total_orders": "Total Orders",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "amount": "Amount"
+  }
+}
